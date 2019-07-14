@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Mic : MonoBehaviour
 {
     public AudioSource audioSource;
+    public GameObject text;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +23,8 @@ public class Mic : MonoBehaviour
         var data = new float[256];
         audioSource.GetOutputData(data, 0);
         var level = data.Aggregate((a, c) => a + Mathf.Abs(c)) / data.Length;
-        Debug.Log(level);
+        transform.localScale = Vector3.one * (level + 1) * 3;
+        var txt = text.GetComponent<Text>();
+        txt.text = level.ToString();
     }
 }
